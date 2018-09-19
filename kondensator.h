@@ -1,0 +1,8 @@
+//
+// Created by sia on 19-9-18.
+//
+
+#ifndef KONDESATOR_KONDENSATOR_H
+#define KONDESATOR_KONDENSATOR_H
+
+#endif //KONDESATOR_KONDENSATOR_H
