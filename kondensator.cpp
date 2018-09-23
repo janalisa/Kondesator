@@ -18,7 +18,7 @@
 //#include "TH1F.h"
 //#include "TH2D.h"
 #include "TPolyMarker3D.h"
-#include "plattenkondensator.h"
+#include "kondensator.h"
 
 
 using namespace std;
@@ -71,7 +71,7 @@ int kondensator::feld(){
 void kondensator::plotmasse() {
     TCanvas *c = new TCanvas("c", "c", 800, 600);
     c-> Update();
-    TH2D *h2 = new TH2D("h2", "Kondensato", 100, 0., 100., 100, 0., 100.);
+    TH2D *h2 = new TH2D("h2", "Kondensator", 100, 0., 100., 100, 0., 100.);
     for(int i=0; i<100;i++){
         for(int j=0;j<100; j++){
             double sum=0;
@@ -89,6 +89,63 @@ void kondensator::plotmasse() {
 }
 
 
+void kondensator::plotfeld() {
+    remove("feld.dat");
+    remove("feldstaerke.dat");
+    ofstream gpd;
+    ofstream gpfd;
+    gpd.open("feld.dat");
+    gpfd.open("feldstaerke.dat");
+    for(int i=0; i<100; i++){
+        for(int j=0; j<100; j++){
+            for(int k=0; k<100; k++){
+                gpd  << i << " " << j << " " << k << " " << G[i][j][k].X()/1000. << " " << G[i][j][k].Y()/1000. << " " << G[i][j][k].Z() << "\n";
+                gpfd << i << " " << j << " " << k << " " << G[i][j][k].Mag() << "\n";
+            }
+        }
+        gpd.close();
+        gpfd.close();
+
+    }
+    cout << "Dateien fertig, eventuell zrange [40:60] setzen" << endl;
+}
+
+
+
+void kondensator::flug(){
+
+    tp.pushback({TVector3(r[0], r[1], r[2]), TVector3(v[0], v[1], v[2])});
+
+    for(int q=0; q<t; q++){
+        TVector3 ort=tp.back().pos;
+        if((ort.X()<0 || (ort.X()>100) || (ort.Y()<0) || (ort.Y()>100) || (ort.Z()<0 || (ort.Z()>100))){
+            cout << "Teilchen aus Koordinatensystem" << endl;
+            break;
+        }
+        else {
+            if(M[ort.X()][ort.Y()][ort.Z()] !=0){
+                cout << "Teilchen in Platte" << endl;
+                break;
+            }
+            else{
+                TVector3 neuort = ort + (zk * tp.back().v);
+                TVector3 neuv = (zk * tp.back().v) + G[ort.X()][ort.Y()][ort.Z()];
+                tp.push_back({neuort, neuv});
+            }
+        }
+    }
+}
+
+
+
+void kondensator::plotflug() {
+    remove("flug.dat");
+    ofstream gpd;
+    for(int i=0; i<tp.capacity()-1; i++){
+        gpd << setw(10) << tp[i].ort.X() << setw(10) << tp[i].ort.Y() << setw(10) << tp[i].ort.Z() << "\n";
+    }
+    gpd.close();
+}
 
 
 
