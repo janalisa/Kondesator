@@ -56,8 +56,8 @@ void kondensator::abfrage() {
     scanf("%lf", &v[1]);
     cout << "Was ist die Geschwindigkeit des Teilchens in z Richtung?" << endl;
     scanf("%lf", &v[2]);
-    cout << "Was ist die Beschleunigung des Teilchens in y Richtung?" << endl;
-    scanf("%i", &ay);
+   // cout << "Was ist die Beschleunigung des Teilchens in y Richtung?" << endl;
+   // scanf("%i", &ay);
 
 }
 
@@ -65,7 +65,7 @@ void kondensator::abfrage() {
 
 void kondensator::platten() {
     if (lx <= 50 && ly <= 50 && (x + lx) <= 100 && y + ly <= 100 && x >= 0 && x <= 100 && y >= 0 && y <= 100 &&
-        z1 >= 0 && z1 <= 100 && z2 >= 0 && z2 <= 100) {
+        z1 >= 0 && z1 <= 100 && z2 >= 0 && z2 <= 100) { //berprueft ob die Eingabe Sinn macht
         for (int i = x; i < (x + lx); i++) {
             for (int j = y; j < (ly + y); j++) {
 
