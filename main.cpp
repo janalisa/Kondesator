@@ -23,7 +23,7 @@ using namespace std;
 
 int main() {
 
-
+/*
     int lx, ly;
     int x, y, z1, z2;
     double m;
@@ -65,10 +65,12 @@ int main() {
     scanf("%lf", &v[2]);
     cout << "Was ist die Beschleunigung des Teilchens in y Richtung?" << endl;
     scanf("%i", &ay);
-
+*/
 
 
     kondensator hpk;
+
+    hpk.abfrage();
 
     hpk.platten();
     int error = hpk.feld();

@@ -11,7 +11,7 @@
 using namespace std;
 
 typedef struct {
-    Tvector3 ort;
+    TVector3 ort;
     TVector3 v;
 } ortimp;
 
@@ -34,6 +34,7 @@ class kondensator{
 
 public:
     kondensator();
+    void abfrage();
     void platten();
     int feld();
     void plotmasse();

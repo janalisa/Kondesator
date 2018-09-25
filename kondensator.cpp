@@ -23,25 +23,68 @@
 
 using namespace std;
 
-kondensator::kondensator() : M(100, vector<vector<double>>(100, vector<double>(100, ))), G(100, vector<vector<TVector3>>(100, vector<TVector3>(100, TVector3()))){
+kondensator::kondensator() : M(100, vector<vector<double>>(100, vector<double>(100, 0))), G(100, vector<vector<TVector3>>(100, vector<TVector3>(100, TVector3()))){
     //Default constructor
 }
 
-void kondensator::platten(){
-    for(int i=x; i<x+lx; i++){
-        for(int j=y; j<ly+y; j++){
-            M[i][j][z1]=m;
-            M[i][j][z2]=m;
+void kondensator::abfrage() {
+    cout << "Was ist die Laenge der Platte in x - Richtung" << endl;
+    scanf("%i", &lx);
+    cout << "Was ist die Laenge der Platte in y - Richtung" << endl;
+    scanf("%i", &ly);
+    cout << "Bei welchem X Wert beginnt die Platte?" << endl;
+    scanf("%i", &x);
+    cout << "Bei welchem Y Wert beginnt die Platte?" << endl;
+    scanf("%i", &y);
+    cout << "Bei welchem Z Wert liegt die erste Platte" << endl;
+    scanf("%i", &z1);
+    cout << "Bei welchem Z Wert liegt die zweite Platte" << endl;
+    scanf("%i", &z2);
+    cout << "Was ist die Masse eines Unterteilungsstueckes?" << endl;
+    scanf("%lf", &m);
+    cout << "Wie lange soll das Teilchen fliegen?" << endl;
+    scanf("%i", &t);
+    cout << "Was ist der Startpunkt des Teilchens in x Richtung?" << endl;
+    scanf("%i", &r[0]);
+    cout << "Was ist der Startpunkt des Teilchens in y Richtung?" << endl;
+    scanf("%i", &r[1]);
+    cout << "Was ist der Startpunkt des Teilchens in z Richtung?" << endl;
+    scanf("%i", &r[2]);
+    cout << "Was ist die Geschwindigkeit des Teilchens in x Richtung?" << endl;
+    scanf("%lf", &v[0]);
+    cout << "Was ist die Geschwindigkeit des Teilchens in y Richtung?" << endl;
+    scanf("%lf", &v[1]);
+    cout << "Was ist die Geschwindigkeit des Teilchens in z Richtung?" << endl;
+    scanf("%lf", &v[2]);
+    cout << "Was ist die Beschleunigung des Teilchens in y Richtung?" << endl;
+    scanf("%i", &ay);
+
+}
+
+
+
+void kondensator::platten() {
+    if (lx <= 50 && ly <= 50 && (x + lx) <= 100 && y + ly <= 100 && x >= 0 && x <= 100 && y >= 0 && y <= 100 &&
+        z1 >= 0 && z1 <= 100 && z2 >= 0 && z2 <= 100) {
+        for (int i = x; i < (x + lx); i++) {
+            for (int j = y; j < (ly + y); j++) {
+
+                cout << "lx: " << lx << endl;
+                cout << "ly: " << ly << endl;
+                cout << i << "   " << j << endl;
+                M[i][j][z1] = m;
+                M[i][j][z2] = m;
+            }
         }
+        cout << "platten fertig" << endl;
     }
-    cout << "platten fertig" << endl;
 }
 
 
 int kondensator::feld(){
-    if(lx<= 50 && ly<=50 && x+lx<=100 && y+ly<=100 && x>=0&&x<=100 && y>=0&&y<=100 && z1>=0&&z1<=100 && z2>=0&&z2<=100){
-        for(int i1 =x; i1 < x+lx; i1++){
-            for(int j1=y; j1<y+ly; j1++){
+    if(lx<= 50 && ly<=50 && (x+lx)<=100 && y+ly<=100 && x>=0&&x<=100 && y>=0&&y<=100 && z1>=0&&z1<=100 && z2>=0&&z2<=100){
+        for(int i1 =x; i1 < (x+lx); i1++){
+            for(int j1=y; j1<(y+ly); j1++){
                 for(int k1=0; k1<100; k1++){
                     if(M[i1][j1][k1]>0.){
                         for(int i2=0; i2<100; i2++){
@@ -114,11 +157,11 @@ void kondensator::plotfeld() {
 
 void kondensator::flug(){
 
-    tp.pushback({TVector3(r[0], r[1], r[2]), TVector3(v[0], v[1], v[2])});
+    tp.push_back({TVector3(r[0], r[1], r[2]), TVector3(v[0], v[1], v[2])});
 
     for(int q=0; q<t; q++){
-        TVector3 ort=tp.back().pos;
-        if((ort.X()<0 || (ort.X()>100) || (ort.Y()<0) || (ort.Y()>100) || (ort.Z()<0 || (ort.Z()>100))){
+        TVector3 ort=tp.back().ort;
+        if((ort.X()<0 || (ort.X()>100) || (ort.Y()<0) || (ort.Y()>100) || (ort.Z()<0) || (ort.Z()>100))){
             cout << "Teilchen aus Koordinatensystem" << endl;
             break;
         }
