@@ -83,14 +83,16 @@ void kondensator::platten() {
 
 int kondensator::feld(){
     if(lx<= 50 && ly<=50 && (x+lx)<=100 && y+ly<=100 && x>=0&&x<=100 && y>=0&&y<=100 && z1>=0&&z1<=100 && z2>=0&&z2<=100){
-        for(int i1 =x; i1 < (x+lx); i1++){
+        for(int i1=x; i1 < (x+lx); i1++){
             for(int j1=y; j1<(y+ly); j1++){
                 for(int k1=0; k1<100; k1++){
                     if(M[i1][j1][k1]>0.){
                         for(int i2=0; i2<100; i2++){
                             for(int j2=0; j2<100; j2++){
                                 for(int k2=0; k2<100; k2++){
+
                                     if((i1 != i2) && (j1 != j2) && (k1 != k2)){
+
                                         TVector3 vec1(i1, j1, k1);
                                         TVector3 vec2(i2, j2, k2);
                                         double mag = 1. / ((vec1-vec2).Mag() * (vec1-vec2).Mag() *(vec1-vec2).Mag());
@@ -143,13 +145,14 @@ void kondensator::plotfeld() {
         for(int j=0; j<100; j++){
             for(int k=0; k<100; k++){
                 gpd  << i << " " << j << " " << k << " " << G[i][j][k].X()/1000. << " " << G[i][j][k].Y()/1000. << " " << G[i][j][k].Z() << "\n";
-                gpfd << i << " " << j << " " << k << " " << G[i][j][k].Mag() << "\n";
+                gpfd << i << " " << j << " " << k << " " << G[i][j][k].Mag()/100 << "\n";
             }
         }
-        gpd.close();
-        gpfd.close();
-
+        gpd << "\n";
+        gpfd << "\n";
     }
+    gpd.close();
+    gpfd.close();
     cout << "Dateien fertig, eventuell zrange [40:60] setzen" << endl;
 }
 
@@ -184,6 +187,7 @@ void kondensator::flug(){
 void kondensator::plotflug() {
     remove("flug.dat");
     ofstream gpd;
+    gpd.open("flug.dat");
     for(int i=0; i<tp.capacity()-1; i++){
         gpd << setw(10) << tp[i].ort.X() << setw(10) << tp[i].ort.Y() << setw(10) << tp[i].ort.Z() << "\n";
     }

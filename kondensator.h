@@ -16,7 +16,7 @@ typedef struct {
 } ortimp;
 
 class kondensator{
-    const double zk = 0.01;
+    const double zk = 0.001;
     int lx, ly;
     int x,y;
     int z1, z2;
