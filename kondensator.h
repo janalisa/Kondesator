@@ -16,12 +16,12 @@ typedef struct {
 } ortimp;
 
 class kondensator{
-    const double zk = 0.001;
-    int lx, ly;
-    int x,y;
-    int z1, z2;
-    double m;
-    const double g=6.;
+    const double zk = 0.001; //zeitkonstante
+    int lx, ly; //Laenge der platten
+    int x,y; //aufpunkt der Platten
+    int z1, z2; // Ort der Platten
+    double m; //masse volumeneinheit
+    const double g=6.; //gravitationskonstante
     int r[3];
     double v[3];
     int ay;

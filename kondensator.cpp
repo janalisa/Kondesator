@@ -1,6 +1,4 @@
-//
-// Created by sia on 19-9-18.
-//
+
 
 #include "kondensator.h"
 
@@ -68,21 +66,17 @@ void kondensator::platten() {
         z1 >= 0 && z1 <= 100 && z2 >= 0 && z2 <= 100) { //berprueft ob die Eingabe Sinn macht
         for (int i = x; i < (x + lx); i++) {
             for (int j = y; j < (ly + y); j++) {
-
-                cout << "lx: " << lx << endl;
-                cout << "ly: " << ly << endl;
-                cout << i << "   " << j << endl;
+//z komponente nicht notwendig da nur 2 Platten
                 M[i][j][z1] = m;
                 M[i][j][z2] = m;
             }
         }
-        cout << "platten fertig" << endl;
     }
 }
 
 
 int kondensator::feld(){
-    if(lx<= 50 && ly<=50 && (x+lx)<=100 && y+ly<=100 && x>=0&&x<=100 && y>=0&&y<=100 && z1>=0&&z1<=100 && z2>=0&&z2<=100){
+    if(lx<= 50 && ly<=50 && (x+lx)<=100 && y+ly<=100 && x>=0&&x<=100 && y>=0&&y<=100 && z1>=0&&z1<=100 && z2>=0&&z2<=100){ //berprueft ob eingabe sinn macht
         for(int i1=x; i1 < (x+lx); i1++){
             for(int j1=y; j1<(y+ly); j1++){
                 for(int k1=0; k1<100; k1++){
@@ -93,9 +87,9 @@ int kondensator::feld(){
 
                                     if((i1 != i2) && (j1 != j2) && (k1 != k2)){
 
-                                        TVector3 vec1(i1, j1, k1);
+                                        TVector3 vec1(i1, j1, k1); //richtungsvektoren der beiden Punkte
                                         TVector3 vec2(i2, j2, k2);
-                                        double mag = 1. / ((vec1-vec2).Mag() * (vec1-vec2).Mag() *(vec1-vec2).Mag());
+                                        double mag = 1. / ((vec1-vec2).Mag() * (vec1-vec2).Mag() *(vec1-vec2).Mag()); //
                                         G[i2][j2][k2] += (g* lx*ly*m * (vec2-vec1) * mag);
                                     }
                                 }
@@ -144,7 +138,7 @@ void kondensator::plotfeld() {
     for(int i=0; i<100; i++){
         for(int j=0; j<100; j++){
             for(int k=0; k<100; k++){
-                gpd  << i << " " << j << " " << k << " " << G[i][j][k].X()/1000. << " " << G[i][j][k].Y()/1000. << " " << G[i][j][k].Z() << "\n";
+                gpd  << i << " " << j << " " << k << " " << G[i][j][k].X()/1000. << " " << G[i][j][k].Y()/1000. << " " << G[i][j][k].Z() << "\n"; //hier gegebenenfalls durch groessere Werte teilen
                 gpfd << i << " " << j << " " << k << " " << G[i][j][k].Mag()/100 << "\n";
             }
         }
@@ -155,6 +149,11 @@ void kondensator::plotfeld() {
     gpfd.close();
     cout << "Dateien fertig, eventuell zrange [40:60] setzen" << endl;
 }
+//Plotten mit Gnuplot:
+//splot "./feld.dat" with vectors
+//sp "./feldstaerke.dat" u 1:2:3:4 w pm3d
+//set yrange [2:3]
+//replot
 
 
 
@@ -193,40 +192,6 @@ void kondensator::plotflug() {
     }
     gpd.close();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//GNUplot
+//set ticslevel 0
+//splot "./flug.dat" u 1:2:3 with lines
